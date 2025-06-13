@@ -31,6 +31,12 @@ export type ProfileStackParamList = {
   MyPosts: undefined;
 };
 
+// Post Stack Types
+export type PostStackParamList = {
+  CreatePost: { post?: any };
+  PostDetail: { postId: number };
+};
+
 // Root Navigator Types
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;

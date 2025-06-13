@@ -10,10 +10,12 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/main/HomeScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import EditProfileScreen from '../screens/profile/EditProfileScreen';
-import AnalyticsScreen from '../screens/analytics/AnalyticsScreen';
+import CreatePostScreen from '../screens/post/CreatePostScreen';
 import SettingsScreen from '../screens/settings/SettingsScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import PostDetailScreen from '../screens/post/PostDetailScreen';
+import {COLORS} from '../utils/constants/theme';
+import Icon from '../components/ui/Icon';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,10 +51,36 @@ const ProfileStackNavigator = () => {
 // Main Tab Navigator
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarIcon: ({focused, color, size}) => {
+          let newSize = focused ? size : size * 0.8;
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Create') {
+            iconName = 'add-circle';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
+          } else if (route.name === 'Settings') {
+            iconName = 'settings';
+          }
+          return (
+            <Icon
+              type="Ionicons"
+              name={iconName}
+              size={newSize}
+              color={color}
+            />
+          );
+        },
+        tabBarActiveTintColor: COLORS.primary,
+        tabBarInactiveTintColor: COLORS.textLight,
+      })}>
       <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="Create" component={CreatePostScreen} />
       <Tab.Screen name="Profile" component={ProfileStackNavigator} />
-      <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
