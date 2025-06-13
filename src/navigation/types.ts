@@ -26,7 +26,7 @@ export type HomeStackParamList = {
 // Profile Stack Types
 export type ProfileStackParamList = {
   MyProfile: undefined;
-  EditProfile: undefined;
+  EditProfile: { userData: any };
   Settings: undefined;
   MyPosts: undefined;
 };

@@ -6,16 +6,15 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 
-// Import screens (placeholders for now)
 import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/main/HomeScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
+import EditProfileScreen from '../screens/profile/EditProfileScreen';
 import AnalyticsScreen from '../screens/analytics/AnalyticsScreen';
 import SettingsScreen from '../screens/settings/SettingsScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import PostDetailScreen from '../screens/post/PostDetailScreen';
 
-// Create navigators
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -30,12 +29,29 @@ const AuthNavigator = () => {
   );
 };
 
+// Profile Stack Navigator
+const ProfileStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="MyProfile" component={ProfileScreen} />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{
+          headerShown: true,
+          headerTitle: 'Edit Profile',
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 // Main Tab Navigator
 const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{headerShown: false}}>
       <Tab.Screen name="Home" component={HomeStackNavigator} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileStackNavigator} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>

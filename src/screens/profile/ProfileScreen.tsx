@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import {useGetDummyUserByIdQuery} from '../../services/api/usersApi';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootState} from '../../store';
 import {
   COLORS,
@@ -20,8 +22,15 @@ import {logout} from '../../store/slices/authSlice';
 import Icon from '../../components/ui/Icon';
 import Button from '../../components/ui/Button';
 import LoadingIndicator from '../../components/ui/LoadingIndicator';
+import {ProfileStackParamList} from '../../navigation/types';
+
+type ProfileScreenNavigationProp = NativeStackNavigationProp<
+  ProfileStackParamList,
+  'MyProfile'
+>;
 
 const ProfileScreen = () => {
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const dispatch = useDispatch();
   const authUser = useSelector((state: RootState) => state.auth.user);
   const {
@@ -34,6 +43,12 @@ const ProfileScreen = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const handleEditProfile = () => {
+    if (userData) {
+      navigation.navigate('EditProfile', { userData });
+    }
   };
 
   const handleRetry = async () => {
@@ -146,6 +161,14 @@ const ProfileScreen = () => {
           </View>
         </View>
       </View>
+
+      <Button
+        title="Edit Profile"
+        onPress={handleEditProfile}
+        variant="primary"
+        style={styles.editButton}
+        textStyle={styles.editButtonText}
+      />
 
       <Button
         title="Logout"
@@ -279,6 +302,20 @@ const styles = StyleSheet.create({
     margin: SPACING.m,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  editButton: {
+    backgroundColor: COLORS.primary,
+    padding: SPACING.m,
+    borderRadius: BORDER_RADIUS.m,
+    margin: SPACING.m,
+    marginBottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editButtonText: {
+    color: COLORS.white,
+    fontSize: FONTS.body,
+    fontWeight: 'bold',
   },
   logoutButtonText: {
     color: COLORS.white,
