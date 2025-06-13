@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -16,13 +16,16 @@ import RegisterScreen from '../screens/auth/RegisterScreen';
 import PostDetailScreen from '../screens/post/PostDetailScreen';
 import {COLORS} from '../utils/constants/theme';
 import Icon from '../components/ui/Icon';
+import ReactNativeBiometrics from 'react-native-biometrics';
+import {Alert} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-
+let isByLogin = false;
 // Auth Navigator
 const AuthNavigator = () => {
+  isByLogin = true;
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -50,6 +53,29 @@ const ProfileStackNavigator = () => {
 
 // Main Tab Navigator
 const TabNavigator = () => {
+  const handleBiometricAuth = async () => {
+    try {
+      const rnBiometrics = new ReactNativeBiometrics();
+      const {success, error} = await rnBiometrics.simplePrompt({
+        promptMessage: 'Authenticate to continue',
+      });
+
+      if (success) {
+        Alert.alert('Success', 'Biometric authentication successful');
+        return true;
+      } else {
+        Alert.alert('Authentication failed', 'Biometric authentication failed');
+        return false;
+      }
+    } catch (error) {
+      console.error('[handleBiometricAuth] Error:', error);
+      Alert.alert('Error', 'Biometric authentication failed from device');
+      return false;
+    }
+  };
+  useEffect(() => {
+    !isByLogin && handleBiometricAuth();
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

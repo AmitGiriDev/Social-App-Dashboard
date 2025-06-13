@@ -8,7 +8,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {useGetDummyUserByIdQuery} from '../../services/api/usersApi';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootState} from '../../store';
@@ -18,7 +18,6 @@ import {
   SPACING,
   BORDER_RADIUS,
 } from '../../utils/constants/theme';
-import {logout} from '../../store/slices/authSlice';
 import Icon from '../../components/ui/Icon';
 import Button from '../../components/ui/Button';
 import LoadingIndicator from '../../components/ui/LoadingIndicator';
@@ -31,7 +30,6 @@ type ProfileScreenNavigationProp = NativeStackNavigationProp<
 
 const ProfileScreen = () => {
   const navigation = useNavigation<ProfileScreenNavigationProp>();
-  const dispatch = useDispatch();
   const authUser = useSelector((state: RootState) => state.auth.user);
   const {
     data: userData,
@@ -41,13 +39,9 @@ const ProfileScreen = () => {
     isFetching,
   } = useGetDummyUserByIdQuery(authUser?.id ?? 1);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   const handleEditProfile = () => {
     if (userData) {
-      navigation.navigate('EditProfile', { userData });
+      navigation.navigate('EditProfile', {userData});
     }
   };
 
@@ -168,14 +162,6 @@ const ProfileScreen = () => {
         variant="primary"
         style={styles.editButton}
         textStyle={styles.editButtonText}
-      />
-
-      <Button
-        title="Logout"
-        onPress={handleLogout}
-        variant="secondary"
-        style={styles.logoutButton}
-        textStyle={styles.logoutButtonText}
       />
     </ScrollView>
   );
