@@ -1,12 +1,11 @@
 import React from 'react';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {store} from './src/store';
 import RootNavigator from './src/navigation';
 import {initializeAuth} from './src/store/slices/authSlice';
 // Initialize vector icons
-import {LogBox} from 'react-native';
+import {LogBox, SafeAreaView} from 'react-native';
 
 // Ignore specific warnings
 LogBox.ignoreLogs([
@@ -21,9 +20,9 @@ const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <Provider store={store}>
-        <SafeAreaProvider>
+        <SafeAreaView style={{flex: 1}}>
           <RootNavigator />
-        </SafeAreaProvider>
+        </SafeAreaView>
       </Provider>
     </GestureHandlerRootView>
   );

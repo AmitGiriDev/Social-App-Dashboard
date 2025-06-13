@@ -8,7 +8,7 @@ import {RootState} from '../store';
 
 // Import screens (placeholders for now)
 import LoginScreen from '../screens/auth/LoginScreen';
-import HomeScreen from '../screens/dashboard/HomeScreen';
+import HomeScreen from '../screens/main/HomeScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import AnalyticsScreen from '../screens/analytics/AnalyticsScreen';
 import SettingsScreen from '../screens/settings/SettingsScreen';
@@ -34,7 +34,7 @@ const AuthNavigator = () => {
 const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="HomeStack" component={HomeStackNavigator} />
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
@@ -45,7 +45,11 @@ const TabNavigator = () => {
 const HomeStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="HomeScreen"
+        options={{headerShown: true, headerTitle: 'Propacity Social'}}
+        component={HomeScreen}
+      />
       <Stack.Screen name="PostDetail" component={PostDetailScreen} />
     </Stack.Navigator>
   );
@@ -55,7 +59,7 @@ const HomeStackNavigator = () => {
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      screenOptions={{headerShown: true, headerTitle: 'Propacity Social'}}>
+      screenOptions={{headerShown: false, headerTitle: 'Propacity Social'}}>
       <Drawer.Screen name="Main" component={TabNavigator} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
     </Drawer.Navigator>
