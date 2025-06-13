@@ -156,6 +156,12 @@ const PostDetailScreen: React.FC<PostDetailScreenProps> = ({
       setLikeCount(prev => (newLikeState ? prev + 1 : prev - 1));
       return newLikeState;
     });
+
+    setIsDisliked(prev => {
+      const newLikeState = false;
+      setDislikeCount(prev => (newLikeState ? prev + 1 : prev - 1));
+      return newLikeState;
+    });
   };
   const handleDislikePress = () => {
     // Animate like button
@@ -168,6 +174,11 @@ const PostDetailScreen: React.FC<PostDetailScreenProps> = ({
     setIsDisliked(prev => {
       const newLikeState = !prev;
       setDislikeCount(prev => (newLikeState ? prev + 1 : prev - 1));
+      return newLikeState;
+    });
+    setIsLiked(prev => {
+      const newLikeState = false;
+      setLikeCount(prev => (newLikeState ? prev + 1 : prev - 1));
       return newLikeState;
     });
   };
@@ -274,13 +285,11 @@ const PostDetailScreen: React.FC<PostDetailScreenProps> = ({
 
           {/* Tags */}
           <View style={styles.tagsContainer}>
-            {['social', 'news', 'trending']
-              .slice(0, Math.floor(Math.random() * 3) + 1)
-              .map((tag, index) => (
-                <View key={index} style={styles.tag}>
-                  <Text style={styles.tagText}>#{tag}</Text>
-                </View>
-              ))}
+            {post.tags.map((tag, index) => (
+              <View key={index} style={styles.tag}>
+                <Text style={styles.tagText}>#{tag}</Text>
+              </View>
+            ))}
           </View>
 
           {/* Post Actions */}

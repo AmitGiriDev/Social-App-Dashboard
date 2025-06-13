@@ -156,9 +156,9 @@ const HomeScreen = () => {
           return (a.reactions.likes || 0) - (b.reactions.likes || 0);
         case 'mostDislikes':
           // Since DummyJSON doesn't have dislikes, we're simulating with tags.length
-          return (b.tags?.length || 0) - (a.tags?.length || 0);
+          return (b.reactions?.dislikes || 0) - (a.reactions?.dislikes || 0);
         case 'leastDislikes':
-          return (a.tags?.length || 0) - (b.tags?.length || 0);
+          return (a.reactions?.dislikes || 0) - (b.reactions?.dislikes || 0);
         case 'mostViews':
           // Simulating views with userId as we don't have view count
           return b.views - a.views;
@@ -257,8 +257,8 @@ const HomeScreen = () => {
                 <Text style={styles.postStatsText}>{item.reactions.likes}</Text>
 
                 <Icon
-                  type="Ionicons"
-                  name="chatbubble-outline"
+                  type="AntDesign"
+                  name="dislike2"
                   size={16}
                   color={COLORS.textLight}
                   style={styles.commentIcon}
