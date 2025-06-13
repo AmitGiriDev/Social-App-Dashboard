@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
   RefreshControl,
   Alert,
 } from 'react-native';
@@ -30,6 +29,7 @@ import {
   useGetPostCommentsQuery,
 } from '../../services/api/postsApi';
 import {RootState} from '../../store';
+import LoadingIndicator from '../../components/ui/LoadingIndicator';
 
 type PostDetailScreenProps = NativeStackScreenProps<
   HomeStackParamList,
@@ -83,14 +83,11 @@ const PostDetailScreen: React.FC<PostDetailScreenProps> = ({
 
   // Run animations
   useEffect(() => {
-    // Staggered animations
     headerOpacity.value = withTiming(1, {duration: 600, easing: Easing.ease});
-
     contentOpacity.value = withDelay(
       300,
       withTiming(1, {duration: 800, easing: Easing.ease}),
     );
-
     contentTranslateY.value = withDelay(
       300,
       withTiming(0, {duration: 800, easing: Easing.ease}),
@@ -209,12 +206,7 @@ const PostDetailScreen: React.FC<PostDetailScreenProps> = ({
 
   // Loading state
   if (isPostLoading && !post) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text style={styles.loadingText}>Loading post...</Text>
-      </View>
-    );
+    return <LoadingIndicator message="Loading post..." />;
   }
 
   // Error state
@@ -354,10 +346,7 @@ const PostDetailScreen: React.FC<PostDetailScreenProps> = ({
 
           {isCommentsLoading ? (
             <View style={styles.commentsLoading}>
-              <ActivityIndicator size="small" color={COLORS.primary} />
-              <Text style={styles.commentsLoadingText}>
-                Loading comments...
-              </Text>
+              <LoadingIndicator size="small" message="Loading comments..." />
             </View>
           ) : comments && comments?.length > 0 ? (
             comments.map((comment: DummyComment) => (

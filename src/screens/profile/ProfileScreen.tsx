@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  ActivityIndicator,
   RefreshControl,
 } from 'react-native';
 import {useGetDummyUserByIdQuery} from '../../services/api/usersApi';
@@ -20,6 +19,7 @@ import {
 import {logout} from '../../store/slices/authSlice';
 import Icon from '../../components/ui/Icon';
 import Button from '../../components/ui/Button';
+import LoadingIndicator from '../../components/ui/LoadingIndicator';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const ProfileScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
+        <LoadingIndicator size="large" message="Loading profile data..." />
       </View>
     );
   }

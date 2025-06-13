@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   RefreshControl,
-  ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -25,6 +24,7 @@ import {MainTabParamList, HomeStackParamList} from '../../navigation/types';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import LoadingIndicator from '../../components/ui/LoadingIndicator';
 
 const AnimatedFlatList = Animated.FlatList;
 
@@ -197,12 +197,7 @@ const HomeScreen = () => {
   const renderFooter = useCallback(() => {
     if (!isLoading) return null;
 
-    return (
-      <View style={styles.footerLoader}>
-        <ActivityIndicator size="small" color={COLORS.primary} />
-        <Text style={styles.loadingText}>Loading more posts...</Text>
-      </View>
-    );
+    return <LoadingIndicator message="Loading more posts..." />;
   }, [isLoading]);
 
   // Transform posts data when it changes
@@ -219,12 +214,7 @@ const HomeScreen = () => {
   // Render empty state
   const renderEmpty = useCallback(() => {
     if (isPostsLoading || isFetching) {
-      return (
-        <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" color={COLORS.primary} />
-          <Text style={styles.emptyText}>Loading posts...</Text>
-        </View>
-      );
+      return <LoadingIndicator size="large" message="Loading posts..." />;
     }
 
     return (
@@ -256,9 +246,7 @@ const HomeScreen = () => {
         }
         ListHeaderComponent={
           isFetching ? (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color={COLORS.primary} />
-            </View>
+            <LoadingIndicator size="small" message="Loading posts..." />
           ) : null
         }
         renderItem={renderPostItem}

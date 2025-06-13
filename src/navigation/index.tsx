@@ -13,7 +13,7 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import AnalyticsScreen from '../screens/analytics/AnalyticsScreen';
 import SettingsScreen from '../screens/settings/SettingsScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
-import PostDetailScreen from '../screens/main/PostDetailScreen';
+import PostDetailScreen from '../screens/post/PostDetailScreen';
 
 // Create navigators
 const Stack = createNativeStackNavigator();
