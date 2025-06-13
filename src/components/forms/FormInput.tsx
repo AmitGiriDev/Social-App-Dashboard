@@ -6,6 +6,8 @@ import {
   TextInputProps,
   View,
   TouchableOpacity,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import {Controller, Control, FieldValues, Path} from 'react-hook-form';
 import {COLORS, FONTS, SPACING} from '../../utils/constants/theme';
@@ -26,7 +28,9 @@ interface FormInputProps<T extends FieldValues> extends TextInputProps {
       | 'MaterialCommunityIcons';
     name: string;
   };
+  containerStyles?: StyleProp<ViewStyle>;
   error?: string;
+  ref?: React.RefObject<TextInput>;
 }
 
 function FormInput<T extends FieldValues>({
@@ -37,6 +41,8 @@ function FormInput<T extends FieldValues>({
   secureTextEntry: initialSecureTextEntry,
   icon,
   error,
+  containerStyles,
+  ref,
   ...rest
 }: FormInputProps<T>) {
   const [secureTextEntry, setSecureTextEntry] = React.useState(
@@ -48,7 +54,7 @@ function FormInput<T extends FieldValues>({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       {label && <Text style={styles.label}>{label}</Text>}
       <Controller
         control={control}
@@ -72,6 +78,7 @@ function FormInput<T extends FieldValues>({
                 </View>
               )}
               <TextInput
+                ref={ref ?? React.createRef<TextInput>()}
                 style={[styles.input, icon && styles.inputWithIcon]}
                 onBlur={onBlur}
                 onChangeText={onChange}
